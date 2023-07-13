@@ -105,12 +105,13 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <returns> An async collection of <see cref="SpringbootserversModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public virtual AsyncPageable<SpringbootserversModelResource> GetSpringbootserversModelsAsync(CancellationToken cancellationToken = default)
+        public virtual AsyncPageable<SpringbootserversModelResource> GetSpringbootserversModelsAsync(string siteName, CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId, siteName);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId, siteName);
             return PageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => new SpringbootserversModelResource(Client, SpringbootserversModelData.DeserializeSpringbootserversModelData(e)), SpringbootserversModelspringbootserversClientDiagnostics, Pipeline, "SubscriptionResourceExtensionClient.GetSpringbootserversModels", "value", "nextLink", cancellationToken);
         }
 
@@ -127,12 +128,13 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <returns> A collection of <see cref="SpringbootserversModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public virtual Pageable<SpringbootserversModelResource> GetSpringbootserversModels(CancellationToken cancellationToken = default)
+        public virtual Pageable<SpringbootserversModelResource> GetSpringbootserversModels(string siteName, CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId, siteName);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootserversModelspringbootserversRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId, siteName);
             return PageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => new SpringbootserversModelResource(Client, SpringbootserversModelData.DeserializeSpringbootserversModelData(e)), SpringbootserversModelspringbootserversClientDiagnostics, Pipeline, "SubscriptionResourceExtensionClient.GetSpringbootserversModels", "value", "nextLink", cancellationToken);
         }
 
@@ -149,12 +151,13 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <returns> An async collection of <see cref="SpringbootappsModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public virtual AsyncPageable<SpringbootappsModelResource> GetSpringbootappsModelsAsync(CancellationToken cancellationToken = default)
+        public virtual AsyncPageable<SpringbootappsModelResource> GetSpringbootappsModelsAsync(string siteName, CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId, siteName);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId, siteName);
             return PageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => new SpringbootappsModelResource(Client, SpringbootappsModelData.DeserializeSpringbootappsModelData(e)), SpringbootappsModelspringbootappsClientDiagnostics, Pipeline, "SubscriptionResourceExtensionClient.GetSpringbootappsModels", "value", "nextLink", cancellationToken);
         }
 
@@ -171,12 +174,13 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <returns> A collection of <see cref="SpringbootappsModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public virtual Pageable<SpringbootappsModelResource> GetSpringbootappsModels(CancellationToken cancellationToken = default)
+        public virtual Pageable<SpringbootappsModelResource> GetSpringbootappsModels(string siteName, CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionRequest(Id.SubscriptionId, siteName);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => SpringbootappsModelspringbootappsRestClient.CreateListBySubscriptionNextPageRequest(nextLink, Id.SubscriptionId, siteName);
             return PageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => new SpringbootappsModelResource(Client, SpringbootappsModelData.DeserializeSpringbootappsModelData(e)), SpringbootappsModelspringbootappsClientDiagnostics, Pipeline, "SubscriptionResourceExtensionClient.GetSpringbootappsModels", "value", "nextLink", cancellationToken);
         }
     }

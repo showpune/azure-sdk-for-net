@@ -67,18 +67,21 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="data"> Create a springbootsites payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
-        public virtual async Task<ArmOperation<SpringbootsitesModelResource>> CreateOrUpdateAsync(WaitUntil waitUntil, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> or <paramref name="data"/> is null. </exception>
+        public virtual async Task<ArmOperation<SpringbootsitesModelResource>> CreateOrUpdateAsync(WaitUntil waitUntil, string springbootsitesName, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
             Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _springbootsitesModelspringbootsitesClientDiagnostics.CreateScope("SpringbootsitesModelCollection.CreateOrUpdate");
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.CreateOrUpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, data, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootsitesModelspringbootsitesRestClient.CreateOrUpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, springbootsitesName, data, cancellationToken).ConfigureAwait(false);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootsitesModelResource>(Response.FromValue(new SpringbootsitesModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     await operation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
@@ -105,18 +108,21 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="data"> Create a springbootsites payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
-        public virtual ArmOperation<SpringbootsitesModelResource> CreateOrUpdate(WaitUntil waitUntil, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> or <paramref name="data"/> is null. </exception>
+        public virtual ArmOperation<SpringbootsitesModelResource> CreateOrUpdate(WaitUntil waitUntil, string springbootsitesName, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
             Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _springbootsitesModelspringbootsitesClientDiagnostics.CreateScope("SpringbootsitesModelCollection.CreateOrUpdate");
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.CreateOrUpdate(Id.SubscriptionId, Id.ResourceGroupName, data, cancellationToken);
+                var response = _springbootsitesModelspringbootsitesRestClient.CreateOrUpdate(Id.SubscriptionId, Id.ResourceGroupName, springbootsitesName, data, cancellationToken);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootsitesModelResource>(Response.FromValue(new SpringbootsitesModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     operation.WaitForCompletion(cancellationToken);
@@ -142,14 +148,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<SpringbootsitesModelResource>> GetAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> is null. </exception>
+        public virtual async Task<Response<SpringbootsitesModelResource>> GetAsync(string springbootsitesName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
+
             using var scope = _springbootsitesModelspringbootsitesClientDiagnostics.CreateScope("SpringbootsitesModelCollection.Get");
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, springbootsitesName, cancellationToken).ConfigureAwait(false);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootsitesModelResource(Client, response.Value), response.GetRawResponse());
@@ -174,14 +185,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<SpringbootsitesModelResource> Get(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> is null. </exception>
+        public virtual Response<SpringbootsitesModelResource> Get(string springbootsitesName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
+
             using var scope = _springbootsitesModelspringbootsitesClientDiagnostics.CreateScope("SpringbootsitesModelCollection.Get");
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, springbootsitesName, cancellationToken);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootsitesModelResource(Client, response.Value), response.GetRawResponse());
@@ -250,14 +266,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<bool>> ExistsAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> is null. </exception>
+        public virtual async Task<Response<bool>> ExistsAsync(string springbootsitesName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
+
             using var scope = _springbootsitesModelspringbootsitesClientDiagnostics.CreateScope("SpringbootsitesModelCollection.Exists");
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken: cancellationToken).ConfigureAwait(false);
+                var response = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, springbootsitesName, cancellationToken: cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(response.Value != null, response.GetRawResponse());
             }
             catch (Exception e)
@@ -280,14 +301,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<bool> Exists(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> is null. </exception>
+        public virtual Response<bool> Exists(string springbootsitesName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
+
             using var scope = _springbootsitesModelspringbootsitesClientDiagnostics.CreateScope("SpringbootsitesModelCollection.Exists");
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken: cancellationToken);
+                var response = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, springbootsitesName, cancellationToken: cancellationToken);
                 return Response.FromValue(response.Value != null, response.GetRawResponse());
             }
             catch (Exception e)

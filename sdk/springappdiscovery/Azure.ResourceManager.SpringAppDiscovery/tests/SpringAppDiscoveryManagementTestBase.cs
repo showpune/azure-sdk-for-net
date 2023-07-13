@@ -14,6 +14,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests
     {
         protected ArmClient Client { get; private set; }
         protected SubscriptionResource DefaultSubscription { get; private set; }
+        public ResourceGroupResource resourceGroupResource { get; set; }
 
         protected SpringAppDiscoveryManagementTestBase(bool isAsync, RecordedTestMode mode)
         : base(isAsync, mode)
@@ -30,6 +31,16 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests
         {
             Client = GetArmClient();
             DefaultSubscription = await Client.GetDefaultSubscriptionAsync().ConfigureAwait(false);
+        }
+
+        public async Task init(string rgNamePrefix, AzureLocation location)
+        {
+            resourceGroupResource = await CreateResourceGroup(DefaultSubscription, rgNamePrefix, location);
+        }
+        [OneTimeTearDown]
+        public void Cleanup()
+        {
+            CleanupResourceGroups();
         }
 
         protected async Task<ResourceGroupResource> CreateResourceGroup(SubscriptionResource subscription, string rgNamePrefix, AzureLocation location)

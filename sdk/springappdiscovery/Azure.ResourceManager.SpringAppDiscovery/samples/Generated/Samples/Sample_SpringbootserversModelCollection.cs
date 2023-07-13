@@ -43,7 +43,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootserversModelCollection collection = springbootsitesModel.GetSpringbootserversModels();
 
             // invoke the operation
-            SpringbootserversModelResource result = await collection.GetAsync();
+            string springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
+            SpringbootserversModelResource result = await collection.GetAsync(springbootserversName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -77,7 +78,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootserversModelCollection collection = springbootsitesModel.GetSpringbootserversModels();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
+            bool result = await collection.ExistsAsync(springbootserversName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -107,7 +109,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootserversModelCollection collection = springbootsitesModel.GetSpringbootserversModels();
 
             // invoke the operation
-            SpringbootserversModelResource result = await collection.GetAsync();
+            string springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
+            SpringbootserversModelResource result = await collection.GetAsync(springbootserversName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -141,7 +144,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootserversModelCollection collection = springbootsitesModel.GetSpringbootserversModels();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
+            bool result = await collection.ExistsAsync(springbootserversName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -171,6 +175,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootserversModelCollection collection = springbootsitesModel.GetSpringbootserversModels();
 
             // invoke the operation
+            string springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
             SpringbootserversModelData data = new SpringbootserversModelData()
             {
                 Properties = new SpringbootserversProperties("thhuxocfyqpeluqcgnypi")
@@ -187,7 +192,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
 },
                 },
             };
-            ArmOperation<SpringbootserversModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SpringbootserversModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, springbootserversName, data);
             SpringbootserversModelResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well
@@ -222,8 +227,9 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootserversModelCollection collection = springbootsitesModel.GetSpringbootserversModels();
 
             // invoke the operation
+            string springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
             SpringbootserversModelData data = new SpringbootserversModelData();
-            ArmOperation<SpringbootserversModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SpringbootserversModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, springbootserversName, data);
             SpringbootserversModelResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well

@@ -20,28 +20,24 @@ namespace Azure.ResourceManager.SpringAppDiscovery
     {
         private readonly TelemetryDetails _userAgent;
         private readonly HttpPipeline _pipeline;
-        private readonly string _springbootsitesName;
         private readonly Uri _endpoint;
         private readonly string _apiVersion;
 
         /// <summary> Initializes a new instance of SpringbootsitesRestOperations. </summary>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
         /// <param name="applicationId"> The application id to use for user agent. </param>
-        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="pipeline"/>, <paramref name="springbootsitesName"/> or <paramref name="apiVersion"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
-        public SpringbootsitesRestOperations(HttpPipeline pipeline, string applicationId, string springbootsitesName, Uri endpoint = null, string apiVersion = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="pipeline"/> or <paramref name="apiVersion"/> is null. </exception>
+        public SpringbootsitesRestOperations(HttpPipeline pipeline, string applicationId, Uri endpoint = null, string apiVersion = default)
         {
             _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
-            _springbootsitesName = springbootsitesName ?? throw new ArgumentNullException(nameof(springbootsitesName));
             _endpoint = endpoint ?? new Uri("https://management.azure.com");
             _apiVersion = apiVersion ?? "2023-01-01-preview";
             _userAgent = new TelemetryDetails(GetType().Assembly, applicationId);
         }
 
-        internal HttpMessage CreateGetRequest(string subscriptionId, string resourceGroupName)
+        internal HttpMessage CreateGetRequest(string subscriptionId, string resourceGroupName, string springbootsitesName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -53,7 +49,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             uri.AppendPath("/resourceGroups/", false);
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.OffAzureSpringBoot/springbootsites/", false);
-            uri.AppendPath(_springbootsitesName, true);
+            uri.AppendPath(springbootsitesName, true);
             uri.AppendQuery("api-version", _apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -64,15 +60,17 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Get a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public async Task<Response<SpringbootsitesModelData>> GetAsync(string subscriptionId, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public async Task<Response<SpringbootsitesModelData>> GetAsync(string subscriptionId, string resourceGroupName, string springbootsitesName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
 
-            using var message = CreateGetRequest(subscriptionId, resourceGroupName);
+            using var message = CreateGetRequest(subscriptionId, resourceGroupName, springbootsitesName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -93,15 +91,17 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Get a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public Response<SpringbootsitesModelData> Get(string subscriptionId, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public Response<SpringbootsitesModelData> Get(string subscriptionId, string resourceGroupName, string springbootsitesName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
 
-            using var message = CreateGetRequest(subscriptionId, resourceGroupName);
+            using var message = CreateGetRequest(subscriptionId, resourceGroupName, springbootsitesName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -119,7 +119,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             }
         }
 
-        internal HttpMessage CreateCreateOrUpdateRequest(string subscriptionId, string resourceGroupName, SpringbootsitesModelData data)
+        internal HttpMessage CreateCreateOrUpdateRequest(string subscriptionId, string resourceGroupName, string springbootsitesName, SpringbootsitesModelData data)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -131,7 +131,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             uri.AppendPath("/resourceGroups/", false);
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.OffAzureSpringBoot/springbootsites/", false);
-            uri.AppendPath(_springbootsitesName, true);
+            uri.AppendPath(springbootsitesName, true);
             uri.AppendQuery("api-version", _apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -146,17 +146,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Create a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="data"> Create a springbootsites payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="data"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public async Task<Response<SpringbootsitesModelData>> CreateOrUpdateAsync(string subscriptionId, string resourceGroupName, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="springbootsitesName"/> or <paramref name="data"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public async Task<Response<SpringbootsitesModelData>> CreateOrUpdateAsync(string subscriptionId, string resourceGroupName, string springbootsitesName, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
             Argument.AssertNotNull(data, nameof(data));
 
-            using var message = CreateCreateOrUpdateRequest(subscriptionId, resourceGroupName, data);
+            using var message = CreateCreateOrUpdateRequest(subscriptionId, resourceGroupName, springbootsitesName, data);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -176,17 +178,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Create a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="data"> Create a springbootsites payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="data"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public Response<SpringbootsitesModelData> CreateOrUpdate(string subscriptionId, string resourceGroupName, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="springbootsitesName"/> or <paramref name="data"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public Response<SpringbootsitesModelData> CreateOrUpdate(string subscriptionId, string resourceGroupName, string springbootsitesName, SpringbootsitesModelData data, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
             Argument.AssertNotNull(data, nameof(data));
 
-            using var message = CreateCreateOrUpdateRequest(subscriptionId, resourceGroupName, data);
+            using var message = CreateCreateOrUpdateRequest(subscriptionId, resourceGroupName, springbootsitesName, data);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -203,7 +207,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             }
         }
 
-        internal HttpMessage CreateDeleteRequest(string subscriptionId, string resourceGroupName)
+        internal HttpMessage CreateDeleteRequest(string subscriptionId, string resourceGroupName, string springbootsitesName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -215,7 +219,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             uri.AppendPath("/resourceGroups/", false);
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.OffAzureSpringBoot/springbootsites/", false);
-            uri.AppendPath(_springbootsitesName, true);
+            uri.AppendPath(springbootsitesName, true);
             uri.AppendQuery("api-version", _apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -226,15 +230,17 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Delete a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public async Task<Response<SpringbootsitesModelData>> DeleteAsync(string subscriptionId, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public async Task<Response<SpringbootsitesModelData>> DeleteAsync(string subscriptionId, string resourceGroupName, string springbootsitesName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
 
-            using var message = CreateDeleteRequest(subscriptionId, resourceGroupName);
+            using var message = CreateDeleteRequest(subscriptionId, resourceGroupName, springbootsitesName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -255,15 +261,17 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Delete a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public Response<SpringbootsitesModelData> Delete(string subscriptionId, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public Response<SpringbootsitesModelData> Delete(string subscriptionId, string resourceGroupName, string springbootsitesName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
 
-            using var message = CreateDeleteRequest(subscriptionId, resourceGroupName);
+            using var message = CreateDeleteRequest(subscriptionId, resourceGroupName, springbootsitesName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -281,7 +289,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             }
         }
 
-        internal HttpMessage CreateUpdateRequest(string subscriptionId, string resourceGroupName, SpringbootsitesModelPatch patch)
+        internal HttpMessage CreateUpdateRequest(string subscriptionId, string resourceGroupName, string springbootsitesName, SpringbootsitesModelPatch patch)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -293,7 +301,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             uri.AppendPath("/resourceGroups/", false);
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.OffAzureSpringBoot/springbootsites/", false);
-            uri.AppendPath(_springbootsitesName, true);
+            uri.AppendPath(springbootsitesName, true);
             uri.AppendQuery("api-version", _apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -308,17 +316,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Update a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="patch"> Update a springbootsites payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="patch"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public async Task<Response<SpringbootsitesModelData>> UpdateAsync(string subscriptionId, string resourceGroupName, SpringbootsitesModelPatch patch, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="springbootsitesName"/> or <paramref name="patch"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public async Task<Response<SpringbootsitesModelData>> UpdateAsync(string subscriptionId, string resourceGroupName, string springbootsitesName, SpringbootsitesModelPatch patch, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
             Argument.AssertNotNull(patch, nameof(patch));
 
-            using var message = CreateUpdateRequest(subscriptionId, resourceGroupName, patch);
+            using var message = CreateUpdateRequest(subscriptionId, resourceGroupName, springbootsitesName, patch);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -338,17 +348,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Update a springbootsites resource. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="patch"> Update a springbootsites payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="patch"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public Response<SpringbootsitesModelData> Update(string subscriptionId, string resourceGroupName, SpringbootsitesModelPatch patch, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="springbootsitesName"/> or <paramref name="patch"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public Response<SpringbootsitesModelData> Update(string subscriptionId, string resourceGroupName, string springbootsitesName, SpringbootsitesModelPatch patch, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
             Argument.AssertNotNull(patch, nameof(patch));
 
-            using var message = CreateUpdateRequest(subscriptionId, resourceGroupName, patch);
+            using var message = CreateUpdateRequest(subscriptionId, resourceGroupName, springbootsitesName, patch);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -365,7 +377,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             }
         }
 
-        internal HttpMessage CreateTriggerRefreshSiteRequest(string subscriptionId, string resourceGroupName)
+        internal HttpMessage CreateTriggerRefreshSiteRequest(string subscriptionId, string resourceGroupName, string springbootsitesName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -377,7 +389,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             uri.AppendPath("/resourceGroups/", false);
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.OffAzureSpringBoot/springbootsites/", false);
-            uri.AppendPath(_springbootsitesName, true);
+            uri.AppendPath(springbootsitesName, true);
             uri.AppendPath("/RefreshSite", false);
             uri.AppendQuery("api-version", _apiVersion, true);
             request.Uri = uri;
@@ -389,15 +401,17 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Trigger refresh springbootsites action. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public async Task<Response> TriggerRefreshSiteAsync(string subscriptionId, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public async Task<Response> TriggerRefreshSiteAsync(string subscriptionId, string resourceGroupName, string springbootsitesName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
 
-            using var message = CreateTriggerRefreshSiteRequest(subscriptionId, resourceGroupName);
+            using var message = CreateTriggerRefreshSiteRequest(subscriptionId, resourceGroupName, springbootsitesName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -412,15 +426,17 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <summary> Trigger refresh springbootsites action. </summary>
         /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/> or <paramref name="resourceGroupName"/> is an empty string, and was expected to be non-empty. </exception>
-        public Response TriggerRefreshSite(string subscriptionId, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is null. </exception>
+        /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/> or <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        public Response TriggerRefreshSite(string subscriptionId, string resourceGroupName, string springbootsitesName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
+            Argument.AssertNotNullOrEmpty(springbootsitesName, nameof(springbootsitesName));
 
-            using var message = CreateTriggerRefreshSiteRequest(subscriptionId, resourceGroupName);
+            using var message = CreateTriggerRefreshSiteRequest(subscriptionId, resourceGroupName, springbootsitesName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

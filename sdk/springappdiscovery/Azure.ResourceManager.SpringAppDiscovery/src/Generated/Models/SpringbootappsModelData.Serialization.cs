@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System;
 using System.Text.Json;
 using Azure.Core;
 using Azure.ResourceManager.Models;
@@ -23,24 +22,6 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                 writer.WritePropertyName("properties"u8);
                 writer.WriteObjectValue(Properties);
             }
-            if (Optional.IsDefined(SiteName))
-            {
-                writer.WritePropertyName("siteName"u8);
-#if NET6_0_OR_GREATER
-				writer.WriteRawValue(SiteName);
-#else
-                JsonSerializer.Serialize(writer, JsonDocument.Parse(SiteName.ToString()).RootElement);
-#endif
-            }
-            if (Optional.IsDefined(SpringbootappsName))
-            {
-                writer.WritePropertyName("springbootappsName"u8);
-#if NET6_0_OR_GREATER
-				writer.WriteRawValue(SpringbootappsName);
-#else
-                JsonSerializer.Serialize(writer, JsonDocument.Parse(SpringbootappsName.ToString()).RootElement);
-#endif
-            }
             writer.WriteEndObject();
         }
 
@@ -51,8 +32,6 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                 return null;
             }
             Optional<SpringbootappsProperties> properties = default;
-            Optional<BinaryData> siteName = default;
-            Optional<BinaryData> springbootappsName = default;
             ResourceIdentifier id = default;
             string name = default;
             ResourceType type = default;
@@ -66,24 +45,6 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                         continue;
                     }
                     properties = SpringbootappsProperties.DeserializeSpringbootappsProperties(property.Value);
-                    continue;
-                }
-                if (property.NameEquals("siteName"u8))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
-                    siteName = BinaryData.FromString(property.Value.GetRawText());
-                    continue;
-                }
-                if (property.NameEquals("springbootappsName"u8))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        continue;
-                    }
-                    springbootappsName = BinaryData.FromString(property.Value.GetRawText());
                     continue;
                 }
                 if (property.NameEquals("id"u8))
@@ -111,7 +72,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     continue;
                 }
             }
-            return new SpringbootappsModelData(id, name, type, systemData.Value, properties.Value, siteName.Value, springbootappsName.Value);
+            return new SpringbootappsModelData(id, name, type, systemData.Value, properties.Value);
         }
     }
 }

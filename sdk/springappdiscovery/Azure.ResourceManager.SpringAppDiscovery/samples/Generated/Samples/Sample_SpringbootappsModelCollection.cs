@@ -43,7 +43,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootappsModelCollection collection = springbootsitesModel.GetSpringbootappsModels();
 
             // invoke the operation
-            SpringbootappsModelResource result = await collection.GetAsync();
+            string springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
+            SpringbootappsModelResource result = await collection.GetAsync(springbootappsName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -77,7 +78,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootappsModelCollection collection = springbootsitesModel.GetSpringbootappsModels();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
+            bool result = await collection.ExistsAsync(springbootappsName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -107,7 +109,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootappsModelCollection collection = springbootsitesModel.GetSpringbootappsModels();
 
             // invoke the operation
-            SpringbootappsModelResource result = await collection.GetAsync();
+            string springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
+            SpringbootappsModelResource result = await collection.GetAsync(springbootappsName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -141,7 +144,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootappsModelCollection collection = springbootsitesModel.GetSpringbootappsModels();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
+            bool result = await collection.ExistsAsync(springbootappsName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -171,6 +175,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootappsModelCollection collection = springbootsitesModel.GetSpringbootappsModels();
 
             // invoke the operation
+            string springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
             SpringbootappsModelData data = new SpringbootappsModelData()
             {
                 Properties = new SpringbootappsProperties()
@@ -244,7 +249,7 @@ JvmMemoryInMB = 128,
                     LastModifiedOn = DateTimeOffset.Parse("2022-12-02T09:28:24.094Z"),
                 },
             };
-            ArmOperation<SpringbootappsModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SpringbootappsModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, springbootappsName, data);
             SpringbootappsModelResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well
@@ -279,8 +284,9 @@ JvmMemoryInMB = 128,
             SpringbootappsModelCollection collection = springbootsitesModel.GetSpringbootappsModels();
 
             // invoke the operation
+            string springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
             SpringbootappsModelData data = new SpringbootappsModelData();
-            ArmOperation<SpringbootappsModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SpringbootappsModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, springbootappsName, data);
             SpringbootappsModelResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well

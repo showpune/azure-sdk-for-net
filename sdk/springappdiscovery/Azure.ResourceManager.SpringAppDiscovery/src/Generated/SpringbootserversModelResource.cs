@@ -107,7 +107,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootserversModelspringbootserversRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootserversModelspringbootserversRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootserversModelResource(Client, response.Value), response.GetRawResponse());
@@ -139,7 +139,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootserversModelspringbootserversRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _springbootserversModelspringbootserversRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootserversModelResource(Client, response.Value), response.GetRawResponse());
@@ -172,7 +172,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootserversModelspringbootserversRestClient.DeleteAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootserversModelspringbootserversRestClient.DeleteAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootserversModelResource>(Response.FromValue(new SpringbootserversModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     await operation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
@@ -206,7 +206,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootserversModelspringbootserversRestClient.Delete(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _springbootserversModelspringbootserversRestClient.Delete(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootserversModelResource>(Response.FromValue(new SpringbootserversModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     operation.WaitForCompletion(cancellationToken);
@@ -243,7 +243,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootserversModelspringbootserversRestClient.UpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, patch, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootserversModelspringbootserversRestClient.UpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, patch, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new SpringbootserversModelResource(Client, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -277,7 +277,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootserversModelspringbootserversRestClient.Update(Id.SubscriptionId, Id.ResourceGroupName, patch, cancellationToken);
+                var response = _springbootserversModelspringbootserversRestClient.Update(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, patch, cancellationToken);
                 return Response.FromValue(new SpringbootserversModelResource(Client, response.Value), response.GetRawResponse());
             }
             catch (Exception e)

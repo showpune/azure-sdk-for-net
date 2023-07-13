@@ -43,7 +43,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SummaryCollection collection = springbootsitesModel.GetSummaries();
 
             // invoke the operation
-            SummaryResource result = await collection.GetAsync();
+            string summaryName = "vjB";
+            SummaryResource result = await collection.GetAsync(summaryName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -77,7 +78,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SummaryCollection collection = springbootsitesModel.GetSummaries();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string summaryName = "vjB";
+            bool result = await collection.ExistsAsync(summaryName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -107,7 +109,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SummaryCollection collection = springbootsitesModel.GetSummaries();
 
             // invoke the operation
-            SummaryResource result = await collection.GetAsync();
+            string summaryName = "vjB";
+            SummaryResource result = await collection.GetAsync(summaryName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -141,7 +144,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SummaryCollection collection = springbootsitesModel.GetSummaries();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string summaryName = "vjB";
+            bool result = await collection.ExistsAsync(summaryName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -171,6 +175,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SummaryCollection collection = springbootsitesModel.GetSummaries();
 
             // invoke the operation
+            string summaryName = "vjB";
             SummaryData data = new SummaryData()
             {
                 Properties = new SummariesProperties()
@@ -183,7 +188,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
 ["key9287"] = "utoxkd",
 },
             };
-            ArmOperation<SummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, summaryName, data);
             SummaryResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well
@@ -218,11 +223,12 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SummaryCollection collection = springbootsitesModel.GetSummaries();
 
             // invoke the operation
+            string summaryName = "vjB";
             SummaryData data = new SummaryData()
             {
                 Properties = new SummariesProperties(),
             };
-            ArmOperation<SummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, summaryName, data);
             SummaryResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well

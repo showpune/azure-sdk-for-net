@@ -109,11 +109,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootserversName"> The springbootservers name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="springbootserversName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootserversName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual async Task<Response<SpringbootserversModelResource>> GetSpringbootserversModelAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<SpringbootserversModelResource>> GetSpringbootserversModelAsync(string springbootserversName, CancellationToken cancellationToken = default)
         {
-            return await GetSpringbootserversModels().GetAsync(cancellationToken).ConfigureAwait(false);
+            return await GetSpringbootserversModels().GetAsync(springbootserversName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -129,11 +132,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootserversName"> The springbootservers name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="springbootserversName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootserversName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual Response<SpringbootserversModelResource> GetSpringbootserversModel(CancellationToken cancellationToken = default)
+        public virtual Response<SpringbootserversModelResource> GetSpringbootserversModel(string springbootserversName, CancellationToken cancellationToken = default)
         {
-            return GetSpringbootserversModels().Get(cancellationToken);
+            return GetSpringbootserversModels().Get(springbootserversName, cancellationToken);
         }
 
         /// <summary> Gets a collection of SpringbootappsModelResources in the SpringbootsitesModel. </summary>
@@ -156,11 +162,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual async Task<Response<SpringbootappsModelResource>> GetSpringbootappsModelAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<SpringbootappsModelResource>> GetSpringbootappsModelAsync(string springbootappsName, CancellationToken cancellationToken = default)
         {
-            return await GetSpringbootappsModels().GetAsync(cancellationToken).ConfigureAwait(false);
+            return await GetSpringbootappsModels().GetAsync(springbootappsName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -176,11 +185,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual Response<SpringbootappsModelResource> GetSpringbootappsModel(CancellationToken cancellationToken = default)
+        public virtual Response<SpringbootappsModelResource> GetSpringbootappsModel(string springbootappsName, CancellationToken cancellationToken = default)
         {
-            return GetSpringbootappsModels().Get(cancellationToken);
+            return GetSpringbootappsModels().Get(springbootappsName, cancellationToken);
         }
 
         /// <summary> Gets a collection of SummaryResources in the SpringbootsitesModel. </summary>
@@ -203,11 +215,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="summaryName"> The name of summary. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="summaryName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="summaryName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual async Task<Response<SummaryResource>> GetSummaryAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<SummaryResource>> GetSummaryAsync(string summaryName, CancellationToken cancellationToken = default)
         {
-            return await GetSummaries().GetAsync(cancellationToken).ConfigureAwait(false);
+            return await GetSummaries().GetAsync(summaryName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -223,11 +238,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="summaryName"> The name of summary. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="summaryName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="summaryName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual Response<SummaryResource> GetSummary(CancellationToken cancellationToken = default)
+        public virtual Response<SummaryResource> GetSummary(string summaryName, CancellationToken cancellationToken = default)
         {
-            return GetSummaries().Get(cancellationToken);
+            return GetSummaries().Get(summaryName, cancellationToken);
         }
 
         /// <summary> Gets a collection of ErrorSummaryResources in the SpringbootsitesModel. </summary>
@@ -250,11 +268,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="errorSummaryName"> The name of error summary. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="errorSummaryName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="errorSummaryName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual async Task<Response<ErrorSummaryResource>> GetErrorSummaryAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<Response<ErrorSummaryResource>> GetErrorSummaryAsync(string errorSummaryName, CancellationToken cancellationToken = default)
         {
-            return await GetErrorSummaries().GetAsync(cancellationToken).ConfigureAwait(false);
+            return await GetErrorSummaries().GetAsync(errorSummaryName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -270,11 +291,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="errorSummaryName"> The name of error summary. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="errorSummaryName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="errorSummaryName"/> is null. </exception>
         [ForwardsClientCalls]
-        public virtual Response<ErrorSummaryResource> GetErrorSummary(CancellationToken cancellationToken = default)
+        public virtual Response<ErrorSummaryResource> GetErrorSummary(string errorSummaryName, CancellationToken cancellationToken = default)
         {
-            return GetErrorSummaries().Get(cancellationToken);
+            return GetErrorSummaries().Get(errorSummaryName, cancellationToken);
         }
 
         /// <summary>
@@ -297,7 +321,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootsitesModelResource(Client, response.Value), response.GetRawResponse());
@@ -329,7 +353,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootsitesModelResource(Client, response.Value), response.GetRawResponse());
@@ -362,7 +386,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.DeleteAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootsitesModelspringbootsitesRestClient.DeleteAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootsitesModelResource>(Response.FromValue(new SpringbootsitesModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     await operation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
@@ -396,7 +420,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.Delete(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _springbootsitesModelspringbootsitesRestClient.Delete(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootsitesModelResource>(Response.FromValue(new SpringbootsitesModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     operation.WaitForCompletion(cancellationToken);
@@ -433,7 +457,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.UpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, patch, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootsitesModelspringbootsitesRestClient.UpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, patch, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new SpringbootsitesModelResource(Client, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -467,7 +491,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.Update(Id.SubscriptionId, Id.ResourceGroupName, patch, cancellationToken);
+                var response = _springbootsitesModelspringbootsitesRestClient.Update(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, patch, cancellationToken);
                 return Response.FromValue(new SpringbootsitesModelResource(Client, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -498,8 +522,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _springbootsitesModelspringbootsitesRestClient.TriggerRefreshSiteAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
-                var operation = new SpringAppDiscoveryArmOperation(_springbootsitesModelspringbootsitesClientDiagnostics, Pipeline, _springbootsitesModelspringbootsitesRestClient.CreateTriggerRefreshSiteRequest(Id.SubscriptionId, Id.ResourceGroupName).Request, response, OperationFinalStateVia.Location);
+                var response = await _springbootsitesModelspringbootsitesRestClient.TriggerRefreshSiteAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
+                var operation = new SpringAppDiscoveryArmOperation(_springbootsitesModelspringbootsitesClientDiagnostics, Pipeline, _springbootsitesModelspringbootsitesRestClient.CreateTriggerRefreshSiteRequest(Id.SubscriptionId, Id.ResourceGroupName, Id.Name).Request, response, OperationFinalStateVia.Location);
                 if (waitUntil == WaitUntil.Completed)
                     await operation.WaitForCompletionResponseAsync(cancellationToken).ConfigureAwait(false);
                 return operation;
@@ -532,8 +556,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _springbootsitesModelspringbootsitesRestClient.TriggerRefreshSite(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
-                var operation = new SpringAppDiscoveryArmOperation(_springbootsitesModelspringbootsitesClientDiagnostics, Pipeline, _springbootsitesModelspringbootsitesRestClient.CreateTriggerRefreshSiteRequest(Id.SubscriptionId, Id.ResourceGroupName).Request, response, OperationFinalStateVia.Location);
+                var response = _springbootsitesModelspringbootsitesRestClient.TriggerRefreshSite(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken);
+                var operation = new SpringAppDiscoveryArmOperation(_springbootsitesModelspringbootsitesClientDiagnostics, Pipeline, _springbootsitesModelspringbootsitesRestClient.CreateTriggerRefreshSiteRequest(Id.SubscriptionId, Id.ResourceGroupName, Id.Name).Request, response, OperationFinalStateVia.Location);
                 if (waitUntil == WaitUntil.Completed)
                     operation.WaitForCompletionResponse(cancellationToken);
                 return operation;
@@ -576,7 +600,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = await GetTagResource().GetAsync(cancellationToken).ConfigureAwait(false);
                     originalTags.Value.Data.TagValues[key] = value;
                     await GetTagResource().CreateOrUpdateAsync(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    var originalResponse = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var originalResponse = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(new SpringbootsitesModelResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -630,7 +654,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = GetTagResource().Get(cancellationToken);
                     originalTags.Value.Data.TagValues[key] = value;
                     GetTagResource().CreateOrUpdate(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken);
-                    var originalResponse = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                    var originalResponse = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken);
                     return Response.FromValue(new SpringbootsitesModelResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -683,7 +707,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = await GetTagResource().GetAsync(cancellationToken).ConfigureAwait(false);
                     originalTags.Value.Data.TagValues.ReplaceWith(tags);
                     await GetTagResource().CreateOrUpdateAsync(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    var originalResponse = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var originalResponse = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(new SpringbootsitesModelResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -732,7 +756,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = GetTagResource().Get(cancellationToken);
                     originalTags.Value.Data.TagValues.ReplaceWith(tags);
                     GetTagResource().CreateOrUpdate(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken);
-                    var originalResponse = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                    var originalResponse = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken);
                     return Response.FromValue(new SpringbootsitesModelResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -780,7 +804,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = await GetTagResource().GetAsync(cancellationToken).ConfigureAwait(false);
                     originalTags.Value.Data.TagValues.Remove(key);
                     await GetTagResource().CreateOrUpdateAsync(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    var originalResponse = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var originalResponse = await _springbootsitesModelspringbootsitesRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(new SpringbootsitesModelResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -832,7 +856,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = GetTagResource().Get(cancellationToken);
                     originalTags.Value.Data.TagValues.Remove(key);
                     GetTagResource().CreateOrUpdate(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken);
-                    var originalResponse = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                    var originalResponse = _springbootsitesModelspringbootsitesRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, cancellationToken);
                     return Response.FromValue(new SpringbootsitesModelResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else

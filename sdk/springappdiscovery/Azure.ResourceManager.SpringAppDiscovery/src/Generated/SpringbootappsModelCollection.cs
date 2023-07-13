@@ -66,18 +66,21 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="data"> Create a springbootapps payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
-        public virtual async Task<ArmOperation<SpringbootappsModelResource>> CreateOrUpdateAsync(WaitUntil waitUntil, SpringbootappsModelData data, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> or <paramref name="data"/> is null. </exception>
+        public virtual async Task<ArmOperation<SpringbootappsModelResource>> CreateOrUpdateAsync(WaitUntil waitUntil, string springbootappsName, SpringbootappsModelData data, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootappsName, nameof(springbootappsName));
             Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _springbootappsModelspringbootappsClientDiagnostics.CreateScope("SpringbootappsModelCollection.CreateOrUpdate");
             scope.Start();
             try
             {
-                var response = await _springbootappsModelspringbootappsRestClient.CreateOrUpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, data, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootappsModelspringbootappsRestClient.CreateOrUpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, springbootappsName, data, cancellationToken).ConfigureAwait(false);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootappsModelResource>(Response.FromValue(new SpringbootappsModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     await operation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
@@ -104,18 +107,21 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="waitUntil"> <see cref="WaitUntil.Completed"/> if the method should wait to return until the long-running operation has completed on the service; <see cref="WaitUntil.Started"/> if it should return after starting the operation. For more information on long-running operations, please see <see href="https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/core/Azure.Core/samples/LongRunningOperations.md"> Azure.Core Long-Running Operation samples</see>. </param>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="data"> Create a springbootapps payload. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="data"/> is null. </exception>
-        public virtual ArmOperation<SpringbootappsModelResource> CreateOrUpdate(WaitUntil waitUntil, SpringbootappsModelData data, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> or <paramref name="data"/> is null. </exception>
+        public virtual ArmOperation<SpringbootappsModelResource> CreateOrUpdate(WaitUntil waitUntil, string springbootappsName, SpringbootappsModelData data, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootappsName, nameof(springbootappsName));
             Argument.AssertNotNull(data, nameof(data));
 
             using var scope = _springbootappsModelspringbootappsClientDiagnostics.CreateScope("SpringbootappsModelCollection.CreateOrUpdate");
             scope.Start();
             try
             {
-                var response = _springbootappsModelspringbootappsRestClient.CreateOrUpdate(Id.SubscriptionId, Id.ResourceGroupName, data, cancellationToken);
+                var response = _springbootappsModelspringbootappsRestClient.CreateOrUpdate(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, springbootappsName, data, cancellationToken);
                 var operation = new SpringAppDiscoveryArmOperation<SpringbootappsModelResource>(Response.FromValue(new SpringbootappsModelResource(Client, response), response.GetRawResponse()));
                 if (waitUntil == WaitUntil.Completed)
                     operation.WaitForCompletion(cancellationToken);
@@ -141,14 +147,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<SpringbootappsModelResource>> GetAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> is null. </exception>
+        public virtual async Task<Response<SpringbootappsModelResource>> GetAsync(string springbootappsName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootappsName, nameof(springbootappsName));
+
             using var scope = _springbootappsModelspringbootappsClientDiagnostics.CreateScope("SpringbootappsModelCollection.Get");
             scope.Start();
             try
             {
-                var response = await _springbootappsModelspringbootappsRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _springbootappsModelspringbootappsRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, springbootappsName, cancellationToken).ConfigureAwait(false);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootappsModelResource(Client, response.Value), response.GetRawResponse());
@@ -173,14 +184,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<SpringbootappsModelResource> Get(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> is null. </exception>
+        public virtual Response<SpringbootappsModelResource> Get(string springbootappsName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootappsName, nameof(springbootappsName));
+
             using var scope = _springbootappsModelspringbootappsClientDiagnostics.CreateScope("SpringbootappsModelCollection.Get");
             scope.Start();
             try
             {
-                var response = _springbootappsModelspringbootappsRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _springbootappsModelspringbootappsRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, springbootappsName, cancellationToken);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SpringbootappsModelResource(Client, response.Value), response.GetRawResponse());
@@ -209,8 +225,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <returns> An async collection of <see cref="SpringbootappsModelResource" /> that may take multiple service requests to iterate over. </returns>
         public virtual AsyncPageable<SpringbootappsModelResource> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupRequest(Id.SubscriptionId, Id.ResourceGroupName);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupNextPageRequest(nextLink, Id.SubscriptionId, Id.ResourceGroupName);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupRequest(Id.SubscriptionId, Id.ResourceGroupName, Id.Name);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupNextPageRequest(nextLink, Id.SubscriptionId, Id.ResourceGroupName, Id.Name);
             return PageableHelpers.CreateAsyncPageable(FirstPageRequest, NextPageRequest, e => new SpringbootappsModelResource(Client, SpringbootappsModelData.DeserializeSpringbootappsModelData(e)), _springbootappsModelspringbootappsClientDiagnostics, Pipeline, "SpringbootappsModelCollection.GetAll", "value", "nextLink", cancellationToken);
         }
 
@@ -231,8 +247,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <returns> A collection of <see cref="SpringbootappsModelResource" /> that may take multiple service requests to iterate over. </returns>
         public virtual Pageable<SpringbootappsModelResource> GetAll(CancellationToken cancellationToken = default)
         {
-            HttpMessage FirstPageRequest(int? pageSizeHint) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupRequest(Id.SubscriptionId, Id.ResourceGroupName);
-            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupNextPageRequest(nextLink, Id.SubscriptionId, Id.ResourceGroupName);
+            HttpMessage FirstPageRequest(int? pageSizeHint) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupRequest(Id.SubscriptionId, Id.ResourceGroupName, Id.Name);
+            HttpMessage NextPageRequest(int? pageSizeHint, string nextLink) => _springbootappsModelspringbootappsRestClient.CreateListByResourceGroupNextPageRequest(nextLink, Id.SubscriptionId, Id.ResourceGroupName, Id.Name);
             return PageableHelpers.CreatePageable(FirstPageRequest, NextPageRequest, e => new SpringbootappsModelResource(Client, SpringbootappsModelData.DeserializeSpringbootappsModelData(e)), _springbootappsModelspringbootappsClientDiagnostics, Pipeline, "SpringbootappsModelCollection.GetAll", "value", "nextLink", cancellationToken);
         }
 
@@ -249,14 +265,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<bool>> ExistsAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> is null. </exception>
+        public virtual async Task<Response<bool>> ExistsAsync(string springbootappsName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootappsName, nameof(springbootappsName));
+
             using var scope = _springbootappsModelspringbootappsClientDiagnostics.CreateScope("SpringbootappsModelCollection.Exists");
             scope.Start();
             try
             {
-                var response = await _springbootappsModelspringbootappsRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken: cancellationToken).ConfigureAwait(false);
+                var response = await _springbootappsModelspringbootappsRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, springbootappsName, cancellationToken: cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(response.Value != null, response.GetRawResponse());
             }
             catch (Exception e)
@@ -279,14 +300,19 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </item>
         /// </list>
         /// </summary>
+        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<bool> Exists(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentException"> <paramref name="springbootappsName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootappsName"/> is null. </exception>
+        public virtual Response<bool> Exists(string springbootappsName, CancellationToken cancellationToken = default)
         {
+            Argument.AssertNotNullOrEmpty(springbootappsName, nameof(springbootappsName));
+
             using var scope = _springbootappsModelspringbootappsClientDiagnostics.CreateScope("SpringbootappsModelCollection.Exists");
             scope.Start();
             try
             {
-                var response = _springbootappsModelspringbootappsRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken: cancellationToken);
+                var response = _springbootappsModelspringbootappsRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Name, springbootappsName, cancellationToken: cancellationToken);
                 return Response.FromValue(response.Value != null, response.GetRawResponse());
             }
             catch (Exception e)

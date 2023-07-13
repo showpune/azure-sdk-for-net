@@ -82,12 +82,10 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Models
         /// <param name="resourceType"> The resourceType. </param>
         /// <param name="systemData"> The systemData. </param>
         /// <param name="properties"> The springbootapps resource definition. </param>
-        /// <param name="siteName"> The springbootsites name. </param>
-        /// <param name="springbootappsName"> The springbootapps name. </param>
         /// <returns> A new <see cref="SpringAppDiscovery.SpringbootappsModelData"/> instance for mocking. </returns>
-        public static SpringbootappsModelData SpringbootappsModelData(ResourceIdentifier id = null, string name = null, ResourceType resourceType = default, SystemData systemData = null, SpringbootappsProperties properties = null, BinaryData siteName = null, BinaryData springbootappsName = null)
+        public static SpringbootappsModelData SpringbootappsModelData(ResourceIdentifier id = null, string name = null, ResourceType resourceType = default, SystemData systemData = null, SpringbootappsProperties properties = null)
         {
-            return new SpringbootappsModelData(id, name, resourceType, systemData, properties, siteName, springbootappsName);
+            return new SpringbootappsModelData(id, name, resourceType, systemData, properties);
         }
 
         /// <summary> Initializes a new instance of SpringbootappsModelPatch. </summary>

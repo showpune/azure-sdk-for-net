@@ -43,7 +43,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             ErrorSummaryCollection collection = springbootsitesModel.GetErrorSummaries();
 
             // invoke the operation
-            ErrorSummaryResource result = await collection.GetAsync();
+            string errorSummaryName = "K2lv";
+            ErrorSummaryResource result = await collection.GetAsync(errorSummaryName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -77,7 +78,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             ErrorSummaryCollection collection = springbootsitesModel.GetErrorSummaries();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string errorSummaryName = "K2lv";
+            bool result = await collection.ExistsAsync(errorSummaryName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -107,7 +109,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             ErrorSummaryCollection collection = springbootsitesModel.GetErrorSummaries();
 
             // invoke the operation
-            ErrorSummaryResource result = await collection.GetAsync();
+            string errorSummaryName = "K2lv";
+            ErrorSummaryResource result = await collection.GetAsync(errorSummaryName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -141,7 +144,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             ErrorSummaryCollection collection = springbootsitesModel.GetErrorSummaries();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string errorSummaryName = "K2lv";
+            bool result = await collection.ExistsAsync(errorSummaryName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -171,6 +175,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             ErrorSummaryCollection collection = springbootsitesModel.GetErrorSummaries();
 
             // invoke the operation
+            string errorSummaryName = "K2lv";
             ErrorSummaryData data = new ErrorSummaryData()
             {
                 Properties = new ErrorSummariesProperties()
@@ -204,7 +209,7 @@ UpdatedTimeStamp = DateTimeOffset.Parse("2022-12-02T09:28:24.094Z"),
 ["key2085"] = "olljrx",
 },
             };
-            ArmOperation<ErrorSummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<ErrorSummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, errorSummaryName, data);
             ErrorSummaryResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well
@@ -239,11 +244,12 @@ UpdatedTimeStamp = DateTimeOffset.Parse("2022-12-02T09:28:24.094Z"),
             ErrorSummaryCollection collection = springbootsitesModel.GetErrorSummaries();
 
             // invoke the operation
+            string errorSummaryName = "K2lv";
             ErrorSummaryData data = new ErrorSummaryData()
             {
                 Properties = new ErrorSummariesProperties(),
             };
-            ArmOperation<ErrorSummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<ErrorSummaryResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, errorSummaryName, data);
             ErrorSummaryResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well

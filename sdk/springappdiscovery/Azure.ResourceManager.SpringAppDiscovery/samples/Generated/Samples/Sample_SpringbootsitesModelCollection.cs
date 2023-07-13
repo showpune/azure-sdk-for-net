@@ -43,7 +43,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootsitesModelCollection collection = resourceGroupResource.GetSpringbootsitesModels();
 
             // invoke the operation
-            SpringbootsitesModelResource result = await collection.GetAsync();
+            string springbootsitesName = "xrmzlavpewxtfeitghdrj";
+            SpringbootsitesModelResource result = await collection.GetAsync(springbootsitesName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -76,7 +77,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootsitesModelCollection collection = resourceGroupResource.GetSpringbootsitesModels();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string springbootsitesName = "xrmzlavpewxtfeitghdrj";
+            bool result = await collection.ExistsAsync(springbootsitesName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -105,7 +107,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootsitesModelCollection collection = resourceGroupResource.GetSpringbootsitesModels();
 
             // invoke the operation
-            SpringbootsitesModelResource result = await collection.GetAsync();
+            string springbootsitesName = "xrmzlavpewxtfeitghdrj";
+            SpringbootsitesModelResource result = await collection.GetAsync(springbootsitesName);
 
             // the variable result is a resource, you could call other operations on this instance as well
             // but just for demo, we get its data from this resource instance
@@ -138,7 +141,8 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootsitesModelCollection collection = resourceGroupResource.GetSpringbootsitesModels();
 
             // invoke the operation
-            bool result = await collection.ExistsAsync();
+            string springbootsitesName = "xrmzlavpewxtfeitghdrj";
+            bool result = await collection.ExistsAsync(springbootsitesName);
 
             Console.WriteLine($"Succeeded: {result}");
         }
@@ -167,6 +171,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootsitesModelCollection collection = resourceGroupResource.GetSpringbootsitesModels();
 
             // invoke the operation
+            string springbootsitesName = "xrmzlavpewxtfeitghdrj";
             SpringbootsitesModelData data = new SpringbootsitesModelData(new AzureLocation("tgobtvxktootwhhvjtsmpddvlqlrq"))
             {
                 Properties = new SpringbootsitesProperties()
@@ -184,7 +189,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
 ["key3558"] = "xeuhtglamqzj",
 },
             };
-            ArmOperation<SpringbootsitesModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SpringbootsitesModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, springbootsitesName, data);
             SpringbootsitesModelResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well
@@ -218,8 +223,9 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Samples
             SpringbootsitesModelCollection collection = resourceGroupResource.GetSpringbootsitesModels();
 
             // invoke the operation
+            string springbootsitesName = "xrmzlavpewxtfeitghdrj";
             SpringbootsitesModelData data = new SpringbootsitesModelData(new AzureLocation("tgobtvxktootwhhvjtsmpddvlqlrq"));
-            ArmOperation<SpringbootsitesModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, data);
+            ArmOperation<SpringbootsitesModelResource> lro = await collection.CreateOrUpdateAsync(WaitUntil.Completed, springbootsitesName, data);
             SpringbootsitesModelResource result = lro.Value;
 
             // the variable result is a resource, you could call other operations on this instance as well

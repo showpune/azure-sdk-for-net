@@ -5,6 +5,7 @@
 
 #nullable disable
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
@@ -165,11 +166,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="resourceGroupResource"> The <see cref="ResourceGroupResource" /> instance the method will execute against. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> is null. </exception>
         [ForwardsClientCalls]
-        public static async Task<Response<SpringbootsitesModelResource>> GetSpringbootsitesModelAsync(this ResourceGroupResource resourceGroupResource, CancellationToken cancellationToken = default)
+        public static async Task<Response<SpringbootsitesModelResource>> GetSpringbootsitesModelAsync(this ResourceGroupResource resourceGroupResource, string springbootsitesName, CancellationToken cancellationToken = default)
         {
-            return await resourceGroupResource.GetSpringbootsitesModels().GetAsync(cancellationToken).ConfigureAwait(false);
+            return await resourceGroupResource.GetSpringbootsitesModels().GetAsync(springbootsitesName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -186,11 +190,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="resourceGroupResource"> The <see cref="ResourceGroupResource" /> instance the method will execute against. </param>
+        /// <param name="springbootsitesName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="springbootsitesName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="springbootsitesName"/> is null. </exception>
         [ForwardsClientCalls]
-        public static Response<SpringbootsitesModelResource> GetSpringbootsitesModel(this ResourceGroupResource resourceGroupResource, CancellationToken cancellationToken = default)
+        public static Response<SpringbootsitesModelResource> GetSpringbootsitesModel(this ResourceGroupResource resourceGroupResource, string springbootsitesName, CancellationToken cancellationToken = default)
         {
-            return resourceGroupResource.GetSpringbootsitesModels().Get(cancellationToken);
+            return resourceGroupResource.GetSpringbootsitesModels().Get(springbootsitesName, cancellationToken);
         }
 
         /// <summary>
@@ -249,11 +256,16 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="siteName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="siteName"/> is null. </exception>
         /// <returns> An async collection of <see cref="SpringbootserversModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public static AsyncPageable<SpringbootserversModelResource> GetSpringbootserversModelsAsync(this SubscriptionResource subscriptionResource, CancellationToken cancellationToken = default)
+        public static AsyncPageable<SpringbootserversModelResource> GetSpringbootserversModelsAsync(this SubscriptionResource subscriptionResource, string siteName, CancellationToken cancellationToken = default)
         {
-            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootserversModelsAsync(cancellationToken);
+            Argument.AssertNotNullOrEmpty(siteName, nameof(siteName));
+
+            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootserversModelsAsync(siteName, cancellationToken);
         }
 
         /// <summary>
@@ -270,11 +282,16 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="siteName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="siteName"/> is null. </exception>
         /// <returns> A collection of <see cref="SpringbootserversModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public static Pageable<SpringbootserversModelResource> GetSpringbootserversModels(this SubscriptionResource subscriptionResource, CancellationToken cancellationToken = default)
+        public static Pageable<SpringbootserversModelResource> GetSpringbootserversModels(this SubscriptionResource subscriptionResource, string siteName, CancellationToken cancellationToken = default)
         {
-            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootserversModels(cancellationToken);
+            Argument.AssertNotNullOrEmpty(siteName, nameof(siteName));
+
+            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootserversModels(siteName, cancellationToken);
         }
 
         /// <summary>
@@ -291,11 +308,16 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="siteName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="siteName"/> is null. </exception>
         /// <returns> An async collection of <see cref="SpringbootappsModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public static AsyncPageable<SpringbootappsModelResource> GetSpringbootappsModelsAsync(this SubscriptionResource subscriptionResource, CancellationToken cancellationToken = default)
+        public static AsyncPageable<SpringbootappsModelResource> GetSpringbootappsModelsAsync(this SubscriptionResource subscriptionResource, string siteName, CancellationToken cancellationToken = default)
         {
-            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootappsModelsAsync(cancellationToken);
+            Argument.AssertNotNullOrEmpty(siteName, nameof(siteName));
+
+            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootappsModelsAsync(siteName, cancellationToken);
         }
 
         /// <summary>
@@ -312,11 +334,16 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// </list>
         /// </summary>
         /// <param name="subscriptionResource"> The <see cref="SubscriptionResource" /> instance the method will execute against. </param>
+        /// <param name="siteName"> The springbootsites name. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentException"> <paramref name="siteName"/> is an empty string, and was expected to be non-empty. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="siteName"/> is null. </exception>
         /// <returns> A collection of <see cref="SpringbootappsModelResource" /> that may take multiple service requests to iterate over. </returns>
-        public static Pageable<SpringbootappsModelResource> GetSpringbootappsModels(this SubscriptionResource subscriptionResource, CancellationToken cancellationToken = default)
+        public static Pageable<SpringbootappsModelResource> GetSpringbootappsModels(this SubscriptionResource subscriptionResource, string siteName, CancellationToken cancellationToken = default)
         {
-            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootappsModels(cancellationToken);
+            Argument.AssertNotNullOrEmpty(siteName, nameof(siteName));
+
+            return GetSubscriptionResourceExtensionClient(subscriptionResource).GetSpringbootappsModels(siteName, cancellationToken);
         }
     }
 }

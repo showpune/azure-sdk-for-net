@@ -108,7 +108,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SummaryResource(Client, response.Value), response.GetRawResponse());
@@ -140,7 +140,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                 if (response.Value == null)
                     throw new RequestFailedException(response.GetRawResponse());
                 return Response.FromValue(new SummaryResource(Client, response.Value), response.GetRawResponse());
@@ -173,7 +173,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _summaryRestClient.DeleteAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                var response = await _summaryRestClient.DeleteAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                 var operation = new SpringAppDiscoveryArmOperation(response);
                 if (waitUntil == WaitUntil.Completed)
                     await operation.WaitForCompletionResponseAsync(cancellationToken).ConfigureAwait(false);
@@ -207,7 +207,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _summaryRestClient.Delete(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                var response = _summaryRestClient.Delete(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                 var operation = new SpringAppDiscoveryArmOperation(response);
                 if (waitUntil == WaitUntil.Completed)
                     operation.WaitForCompletionResponse(cancellationToken);
@@ -244,7 +244,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = await _summaryRestClient.UpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, patch, cancellationToken).ConfigureAwait(false);
+                var response = await _summaryRestClient.UpdateAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, patch, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new SummaryResource(Client, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -278,7 +278,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             scope.Start();
             try
             {
-                var response = _summaryRestClient.Update(Id.SubscriptionId, Id.ResourceGroupName, patch, cancellationToken);
+                var response = _summaryRestClient.Update(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, patch, cancellationToken);
                 return Response.FromValue(new SummaryResource(Client, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -319,7 +319,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = await GetTagResource().GetAsync(cancellationToken).ConfigureAwait(false);
                     originalTags.Value.Data.TagValues[key] = value;
                     await GetTagResource().CreateOrUpdateAsync(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    var originalResponse = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var originalResponse = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(new SummaryResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -373,7 +373,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = GetTagResource().Get(cancellationToken);
                     originalTags.Value.Data.TagValues[key] = value;
                     GetTagResource().CreateOrUpdate(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken);
-                    var originalResponse = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                    var originalResponse = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                     return Response.FromValue(new SummaryResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -426,7 +426,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = await GetTagResource().GetAsync(cancellationToken).ConfigureAwait(false);
                     originalTags.Value.Data.TagValues.ReplaceWith(tags);
                     await GetTagResource().CreateOrUpdateAsync(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    var originalResponse = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var originalResponse = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(new SummaryResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -475,7 +475,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = GetTagResource().Get(cancellationToken);
                     originalTags.Value.Data.TagValues.ReplaceWith(tags);
                     GetTagResource().CreateOrUpdate(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken);
-                    var originalResponse = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                    var originalResponse = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                     return Response.FromValue(new SummaryResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -523,7 +523,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = await GetTagResource().GetAsync(cancellationToken).ConfigureAwait(false);
                     originalTags.Value.Data.TagValues.Remove(key);
                     await GetTagResource().CreateOrUpdateAsync(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
-                    var originalResponse = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var originalResponse = await _summaryRestClient.GetAsync(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(new SummaryResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
@@ -575,7 +575,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
                     var originalTags = GetTagResource().Get(cancellationToken);
                     originalTags.Value.Data.TagValues.Remove(key);
                     GetTagResource().CreateOrUpdate(WaitUntil.Completed, originalTags.Value.Data, cancellationToken: cancellationToken);
-                    var originalResponse = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, cancellationToken);
+                    var originalResponse = _summaryRestClient.Get(Id.SubscriptionId, Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
                     return Response.FromValue(new SummaryResource(Client, originalResponse.Value), originalResponse.GetRawResponse());
                 }
                 else
