@@ -33,22 +33,14 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests
             DefaultSubscription = await Client.GetDefaultSubscriptionAsync().ConfigureAwait(false);
         }
 
-        public async Task init(string rgNamePrefix, AzureLocation location)
+        public async Task init(string rgName, AzureLocation location)
         {
-            resourceGroupResource = await CreateResourceGroup(DefaultSubscription, rgNamePrefix, location);
+            resourceGroupResource = await DefaultSubscription.GetResourceGroups().GetAsync(rgName);
         }
         [OneTimeTearDown]
         public void Cleanup()
         {
             CleanupResourceGroups();
-        }
-
-        protected async Task<ResourceGroupResource> CreateResourceGroup(SubscriptionResource subscription, string rgNamePrefix, AzureLocation location)
-        {
-            string rgName = Recording.GenerateAssetName(rgNamePrefix);
-            ResourceGroupData input = new ResourceGroupData(location);
-            var lro = await subscription.GetResourceGroups().CreateOrUpdateAsync(WaitUntil.Completed, rgName, input);
-            return lro.Value;
         }
     }
 }
