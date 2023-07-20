@@ -85,6 +85,10 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
                     {
                         appCount++;
                     }
+                    else
+                    {
+                        Console.WriteLine($"appData {appData.Properties.AppName} is not bound to any server, ignore it");
+                    }
                 }
                 Console.WriteLine($"Succeeded Discovery appCount count: {appCount}");
                 Assert.IsTrue(appCount == 1);
@@ -119,17 +123,22 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
                 serverData.Properties.ProvisioningState = ProvisioningState.Accepted;
                 ArmOperation<SpringbootserversModelResource> lro = await springbootserversModelCollection.CreateOrUpdateAsync(WaitUntil.Completed, serverName, serverData);
                 SpringbootserversModelResource result = lro.Value;
+                Console.WriteLine($"New Server added with server name: {serverName}");
                 Assert.IsNotNull(result);
                 await site.TriggerRefreshSiteAsync(WaitUntil.Completed);
+                Console.WriteLine($"Refresh succeedded");
                 Response<SpringbootserversModelResource> newServer = await result.GetAsync();
                 SpringbootserversModelResource newResult = newServer.Value;
                 int retryTimes = 0;
                 while (true)
                 {
+                    Console.WriteLine($"Try {retryTimes} time(s)");
                     if (newResult.Data.Properties.ProvisioningState == ProvisioningState.Succeeded|| retryTimes>10)
                     {
+                        Console.WriteLine($"Find {newResult.Data.Properties.TotalApps} app(s) in server {serverName}");
                         Assert.IsTrue(newResult.Data.Properties.TotalApps == 1);
                         await newResult.DeleteAsync(WaitUntil.Completed);
+                        Console.WriteLine($"{serverName} is deleted");
                         break;
                     }
                     retryTimes++;
