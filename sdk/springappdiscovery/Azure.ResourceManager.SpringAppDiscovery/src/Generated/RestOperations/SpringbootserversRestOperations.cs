@@ -174,7 +174,6 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             {
                 case 200:
                 case 201:
-                case 202:
                     {
                         SpringbootserversModelData value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -209,7 +208,6 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             {
                 case 200:
                 case 201:
-                case 202:
                     {
                         SpringbootserversModelData value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);
@@ -251,7 +249,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="siteName"/> or <paramref name="springbootserversName"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="siteName"/> or <paramref name="springbootserversName"/> is an empty string, and was expected to be non-empty. </exception>
-        public async Task<Response<SpringbootserversModelData>> DeleteAsync(string subscriptionId, string resourceGroupName, string siteName, string springbootserversName, CancellationToken cancellationToken = default)
+        public async Task<Response> DeleteAsync(string subscriptionId, string resourceGroupName, string siteName, string springbootserversName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
@@ -263,15 +261,9 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             switch (message.Response.Status)
             {
                 case 200:
-                    {
-                        SpringbootserversModelData value = default;
-                        using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
-                        value = SpringbootserversModelData.DeserializeSpringbootserversModelData(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
                 case 202:
                 case 204:
-                    return Response.FromValue((SpringbootserversModelData)null, message.Response);
+                    return message.Response;
                 default:
                     throw new RequestFailedException(message.Response);
             }
@@ -285,7 +277,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="siteName"/> or <paramref name="springbootserversName"/> is null. </exception>
         /// <exception cref="ArgumentException"> <paramref name="subscriptionId"/>, <paramref name="resourceGroupName"/>, <paramref name="siteName"/> or <paramref name="springbootserversName"/> is an empty string, and was expected to be non-empty. </exception>
-        public Response<SpringbootserversModelData> Delete(string subscriptionId, string resourceGroupName, string siteName, string springbootserversName, CancellationToken cancellationToken = default)
+        public Response Delete(string subscriptionId, string resourceGroupName, string siteName, string springbootserversName, CancellationToken cancellationToken = default)
         {
             Argument.AssertNotNullOrEmpty(subscriptionId, nameof(subscriptionId));
             Argument.AssertNotNullOrEmpty(resourceGroupName, nameof(resourceGroupName));
@@ -297,15 +289,9 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             switch (message.Response.Status)
             {
                 case 200:
-                    {
-                        SpringbootserversModelData value = default;
-                        using var document = JsonDocument.Parse(message.Response.ContentStream);
-                        value = SpringbootserversModelData.DeserializeSpringbootserversModelData(document.RootElement);
-                        return Response.FromValue(value, message.Response);
-                    }
                 case 202:
                 case 204:
-                    return Response.FromValue((SpringbootserversModelData)null, message.Response);
+                    return message.Response;
                 default:
                     throw new RequestFailedException(message.Response);
             }
@@ -359,7 +345,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             switch (message.Response.Status)
             {
                 case 200:
-                case 202:
+                case 201:
                     {
                         SpringbootserversModelData value = default;
                         using var document = await JsonDocument.ParseAsync(message.Response.ContentStream, default, cancellationToken).ConfigureAwait(false);
@@ -393,7 +379,7 @@ namespace Azure.ResourceManager.SpringAppDiscovery
             switch (message.Response.Status)
             {
                 case 200:
-                case 202:
+                case 201:
                     {
                         SpringbootserversModelData value = default;
                         using var document = JsonDocument.Parse(message.Response.ContentStream);

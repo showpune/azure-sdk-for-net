@@ -67,11 +67,12 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
                 var serverName ="";
                 await foreach (SpringbootserversModelResource server in springbootserversModelCollection.GetAllAsync())
                 {
-                    // the variable item is a resource, you could call other operations on this instance as well
-                    // but just for demo, we get its data from this resource instance
-                    serverData = server.Data;
+                    serverName = server.Data.Properties.Server;
+                    if (serverName == "backend")
+                    {
+                        serverData = server.Data;
+                    }
                     // for demo we just print out the id
-                    serverName = serverData.Properties.Server;
                     Console.WriteLine($"Succeeded add server with serverName: {serverName}");
                     serverCount++;
                 }
@@ -80,29 +81,30 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
                 // Test Create
                 serverName = "backendtest";
                 serverData.Properties.Server = serverName;
-                try
-                {
-                    ResourceIdentifier deleteServerId = SpringbootserversModelResource.CreateResourceIdentifier("a4ab3025-1b32-4394-92e0-d07c1ebf3787", rgName, siteData.Name, serverName);
-                    SpringbootserversModelResource deleteServerModel = Client.GetSpringbootserversModelResource(deleteServerId);
-                    ArmOperation<SpringbootserversModelResource> deleteResource = await deleteServerModel.DeleteAsync(WaitUntil.Completed);
-                } catch (NullReferenceException e)
-                {
-                    Console.WriteLine(serverName + " is already deleted:"+e.Message);
-                }
+                serverData.Properties.ProvisioningState = ProvisioningState.Accepted;
                 ArmOperation<SpringbootserversModelResource> lro = await springbootserversModelCollection.CreateOrUpdateAsync(WaitUntil.Completed, serverName, serverData);
                 SpringbootserversModelResource result = lro.Value;
                 Assert.IsNotNull(result);
+                await site.TriggerRefreshSiteAsync(WaitUntil.Completed);
                 while (true)
                 {
                     Response<SpringbootserversModelResource> newServer = await result.GetAsync();
                     SpringbootserversModelResource newResult = newServer.Value;
-                    if (newResult != null)
+                    if (newResult.Data.Properties.ProvisioningState == ProvisioningState.Succeeded)
                     {
-                        lro = await result.DeleteAsync(WaitUntil.Completed);
-                        result = lro.Value;
-                        Assert.IsNotNull(result);
+                        Assert.IsTrue(newResult.Data.Properties.TotalApps > 0);
+                        try
+                        {
+                            lro = await newResult.DeleteAsync(WaitUntil.Completed);
+                            result = lro.Value;
+                            Assert.IsNotNull(result);
+                        }catch (NullReferenceException e)
+                        {
+                            Console.WriteLine("Deleted" + e.Message);
+                        }
                         break;
                     }
+                    System.Threading.Thread.Sleep(5000);
                 }
 
                 var appCount = 0;
