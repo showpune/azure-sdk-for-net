@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Core.TestFramework;
@@ -54,14 +55,11 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
             bool hasSite = false;
             await foreach (SpringbootsitesModelResource site in springbootsitesModelCollection.GetAllAsync())
             {
-                // the variable item is a resource, you could call other operations on this instance as well
-                // but just for demo, we get its data from this resource instance
                 SpringbootsitesModelData siteData = site.Data;
-                // for demo we just print out the id
                 Console.WriteLine($"Succeeded on site id: {siteData.Id}");
                 hasSite = true;
                 SpringbootserversModelCollection springbootserversModelCollection = site.GetSpringbootserversModels();
-
+                await site.TriggerRefreshSiteAsync(WaitUntil.Completed);
                 var serverCount = 0;
                 SpringbootserversModelData serverData = new SpringbootserversModelData();
                 var serverName ="";
@@ -72,54 +70,24 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
                     {
                         serverData = server.Data;
                     }
-                    // for demo we just print out the id
-                    Console.WriteLine($"Succeeded add server with serverName: {serverName}");
+                    Console.WriteLine($"Succeeded find server with serverName: {serverName}");
                     serverCount++;
                 }
                 Console.WriteLine($"Succeeded Discovery server count: {serverCount}");
-                Assert.IsTrue(serverCount > 0);
-                // Test Create
-                serverName = "backendtest";
-                serverData.Properties.Server = serverName;
-                serverData.Properties.ProvisioningState = ProvisioningState.Accepted;
-                ArmOperation<SpringbootserversModelResource> lro = await springbootserversModelCollection.CreateOrUpdateAsync(WaitUntil.Completed, serverName, serverData);
-                SpringbootserversModelResource result = lro.Value;
-                Assert.IsNotNull(result);
-                await site.TriggerRefreshSiteAsync(WaitUntil.Completed);
-                while (true)
-                {
-                    Response<SpringbootserversModelResource> newServer = await result.GetAsync();
-                    SpringbootserversModelResource newResult = newServer.Value;
-                    if (newResult.Data.Properties.ProvisioningState == ProvisioningState.Succeeded)
-                    {
-                        Assert.IsTrue(newResult.Data.Properties.TotalApps > 0);
-                        try
-                        {
-                            lro = await newResult.DeleteAsync(WaitUntil.Completed);
-                            result = lro.Value;
-                            Assert.IsNotNull(result);
-                        }catch (NullReferenceException e)
-                        {
-                            Console.WriteLine("Deleted" + e.Message);
-                        }
-                        break;
-                    }
-                    System.Threading.Thread.Sleep(5000);
-                }
-
+                Assert.IsTrue(serverCount >= 2);
                 var appCount = 0;
                 SpringbootappsModelCollection springbootappsModelCollection = site.GetSpringbootappsModels();
                 await foreach (SpringbootappsModelResource app in springbootappsModelCollection.GetAllAsync())
                 {
-                    // the variable item is a resource, you could call other operations on this instance as well
-                    // but just for demo, we get its data from this resource instance
                     SpringbootappsModelData appData = app.Data;
-                    // for demo we just print out the id
-                    Console.WriteLine($"Succeeded on appData id: {appData.Id}");
-                    appCount++;
+                    Console.WriteLine($"Succeeded on appData id: {appData.Properties.AppName}");
+                    if (appData.Properties.Servers.Count > 0)
+                    {
+                        appCount++;
+                    }
                 }
                 Console.WriteLine($"Succeeded Discovery appCount count: {appCount}");
-                Assert.IsTrue(appCount > 0);
+                Assert.IsTrue(appCount == 1);
 
                 ErrorSummaryCollection errorSummaryCollection = site.GetErrorSummaries();
                 await foreach (ErrorSummaryResource errorSummaryResource in errorSummaryCollection.GetAllAsync())
@@ -143,6 +111,30 @@ namespace Azure.ResourceManager.SpringAppDiscovery.Tests.Tests
                     summaryCount++;
                 }
                 Assert.IsTrue(summaryCount > 0);
+
+                //start change
+                // Test Create
+                serverName = "backendtest";
+                serverData.Properties.Server = serverName;
+                serverData.Properties.ProvisioningState = ProvisioningState.Accepted;
+                ArmOperation<SpringbootserversModelResource> lro = await springbootserversModelCollection.CreateOrUpdateAsync(WaitUntil.Completed, serverName, serverData);
+                SpringbootserversModelResource result = lro.Value;
+                Assert.IsNotNull(result);
+                await site.TriggerRefreshSiteAsync(WaitUntil.Completed);
+                Response<SpringbootserversModelResource> newServer = await result.GetAsync();
+                SpringbootserversModelResource newResult = newServer.Value;
+                int retryTimes = 0;
+                while (true)
+                {
+                    if (newResult.Data.Properties.ProvisioningState == ProvisioningState.Succeeded|| retryTimes>10)
+                    {
+                        Assert.IsTrue(newResult.Data.Properties.TotalApps == 1);
+                        await newResult.DeleteAsync(WaitUntil.Completed);
+                        break;
+                    }
+                    retryTimes++;
+                    Thread.Sleep(10000);
+                }
             }
             Assert.IsTrue(hasSite);
         }

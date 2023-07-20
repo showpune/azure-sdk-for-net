@@ -7,7 +7,7 @@ azure-arm: true
 csharp: true
 library-name: SpringAppDiscovery
 namespace: Azure.ResourceManager.SpringAppDiscovery
-require: https://github.com/Azure/azure-rest-api-specs/blob/4f62bf8b1b78c49fd391f68dd98b72eee1ba5eb8/specification/offazurespringboot/resource-manager/readme.md
+require: https://github.com/Azure/azure-rest-api-specs/blob/39975884350e71e9b8291800a419a7cc96152db6/specification/offazurespringboot/resource-manager/readme.md
 output-folder: $(this-folder)/Generated
 clear-output-folder: true
 skip-csproj: true
